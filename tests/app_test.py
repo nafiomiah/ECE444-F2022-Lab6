@@ -29,6 +29,11 @@ def login(client, username, password):
     )
 
 
+def test_search_page(client):
+    response = client.get("/search/", content_type = "html/text")
+    assert response.status_code == 200
+
+
 def logout(client):
     """Logout helper function"""
     return client.get("/logout", follow_redirects=True)
