@@ -35,7 +35,9 @@ def test_search_page(client):
     post_title = "TESTING SEARCH"
     rv = client.post(
         "/add",
-        data=dict(title="{}".format(post_title), text="<strong>HTML</strong> allowed here"),
+        data=dict(
+            title="{}".format(post_title), text="<strong>HTML</strong> allowed here"
+        ),
         follow_redirects=True,
     )
     response = client.get("/search/?query={}".format(post_title))
