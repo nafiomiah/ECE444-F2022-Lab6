@@ -30,8 +30,17 @@ def login(client, username, password):
 
 
 def test_search_page(client):
-    response = client.get("/search/", content_type = "html/text")
+    """Test that posted entries can be searched"""
+    login(client, app.config["USERNAME"], app.config["PASSWORD"])
+    post_title = "TESTING SEARCH"
+    rv = client.post(
+        "/add",
+        data=dict(title="{}".format(post_title), text="<strong>HTML</strong> allowed here"),
+        follow_redirects=True,
+    )
+    response = client.get("/search/?query={}".format(post_title))
     assert response.status_code == 200
+    assert b"<strong>HTML</strong> allowed here" in response.data
 
 
 def logout(client):
